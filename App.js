@@ -1,36 +1,50 @@
-import React, {Component} from 'react';
-import { Platform,StyleSheet,Text,View } from 'react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload, \n' + 'Cmd+D or shake for dev menu',
-  android:
-  'Double tap R on your keyboard to reload,\n' +
-  'Shake or press menu for dev menu',
-});
+import { ProductsList } from './screens/ProductsList.js';
+import { ProductDetails } from './screens/ProductDetails.js';
+import { Cart } from './screens/Cart.js';
+import { CartIcon } from './components/CartIcon.js';
+import { CartProvider } from './CartContext.js';
 
-type Props= {};
-export default class App extends Component<Props>{
-  render(){
-    return(
-      <view style={stylecontainer}>
-        <Textstyle={styles.welcome}>Hello World</Text>
-        <Textstyle={style.instructions}>To get started, open browser</Text>
-        <Textstyle={style.instructions}>{instructions}</Textstyle>
-        <Textstyle={style.instructions}>{instructions}</Textstyle>
-        <Textstyle={style.instructions}>{instructions}</Textstyle>
-      </view>
-    );
-  }
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <CartProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name='Products' component={ProductsList} 
+          options={({ navigation }) => ({
+            title: 'Products',
+            headerTitleStyle: styles.headerTitle,
+            headerRight: () => <CartIcon navigation={navigation}/>
+          })}/>
+          <Stack.Screen name='ProductDetails' component={ProductDetails} 
+          options={({ navigation }) => ({
+            title: 'Product details',
+            headerTitleStyle: styles.headerTitle,
+            headerRight: () => <CartIcon navigation={navigation}/>,
+          })} />
+          <Stack.Screen name='Cart' component={Cart} 
+          options={({ navigation }) => ({
+            title: 'My cart',
+            headerTitleStyle: styles.headerTitle,
+            headerRight: () => <CartIcon navigation={navigation}/>,
+          })} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </CartProvider>
+  );
 }
-const styles= StyleSheet.create({
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center'
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '333333',
-    marginBottom: 5,
-  },
+
+const styles = StyleSheet.create({
+  headerTitle: {
+    fontSize: 20
+  }
 });
+
+
+export default App;
