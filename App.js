@@ -1,44 +1,64 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import { ProductsList } from './screens/ProductsList.js';
-import { ProductDetails } from './screens/ProductDetails.js';
-import { Cart } from './screens/Cart.js';
-import { CartIcon } from './components/CartIcon.js';
-import { CartProvider } from './CartContext.js';
+import { ProductDetails } from './screens/ProductDetails';
+import { Cart } from './screens/Cart';
+import { CartIcon } from './components/CartIcon';
+import { CartProvider } from './CartContext';
+import ProductList from './screens/ProductList';
+import Login from './screens/Login';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 function App() {
   return (
-    <CartProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name='Products' component={ProductsList} 
-          options={({ navigation }) => ({
-            title: 'Products',
-            headerTitleStyle: styles.headerTitle,
-            headerRight: () => <CartIcon navigation={navigation}/>
-          })}/>
-          <Stack.Screen name='ProductDetails' component={ProductDetails} 
-          options={({ navigation }) => ({
-            title: 'Product details',
-            headerTitleStyle: styles.headerTitle,
-            headerRight: () => <CartIcon navigation={navigation}/>,
-          })} />
-          <Stack.Screen name='Cart' component={Cart} 
-          options={({ navigation }) => ({
-            title: 'My cart',
-            headerTitleStyle: styles.headerTitle,
-            headerRight: () => <CartIcon navigation={navigation}/>,
-          })} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </CartProvider>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName= "Login">
+        <Stack.Screen name="ProductList" component={ProductList} />
+        <Stack.Screen name="ProductDetails" component={ProductDetails} />
+        <Stack.Screen name="Cart" component={Cart} />
+        <Stack.Screen name="CartIcon" component={CartIcon} />
+        <Stack.Screen name="CartProvider" component={CartProvider} />
+        <Stack.Screen name="Login" component={Login} />
+      </Stack.Navigator>
+
+    </NavigationContainer>
   );
 }
+
+
+
+
+// function App() {
+//   return (
+//     <CartProvider>
+//       <NavigationContainer>
+//         <Stack.Navigator>
+//           <Stack.Screen name='Products' component={ProductsList} 
+//           options={({ navigation }) => ({
+//             title: 'Products',
+//             headerTitleStyle: styles.headerTitle,
+//             headerRight: () => <CartIcon navigation={navigation}/>
+//           })}/>
+//           <Stack.Screen name='ProductDetails' component={ProductDetails} 
+//           options={({ navigation }) => ({
+//             title: 'Product details',
+//             headerTitleStyle: styles.headerTitle,
+//             headerRight: () => <CartIcon navigation={navigation}/>,
+//           })} />
+//           <Stack.Screen name='Cart' component={Cart} 
+//           options={({ navigation }) => ({
+//             title: 'My cart',
+//             headerTitleStyle: styles.headerTitle,
+//             headerRight: () => <CartIcon navigation={navigation}/>,
+//           })} />
+//         </Stack.Navigator>
+//       </NavigationContainer>
+//     </CartProvider>
+//   );
+// }
 
 const styles = StyleSheet.create({
   headerTitle: {
